@@ -1,7 +1,7 @@
 host = "localhost"
 user = "root"
-# passwd = "1"
-passwd = ""
+passwd = "1"
+# passwd = ""
 db = "posting-nikulux"
 charset = "utf8"
 init_command = 'SET NAMES UTF8'
