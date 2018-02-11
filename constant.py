@@ -15,7 +15,7 @@ chat_id_canal = '@telNikulux' #канал Nikulux в Telegram
 token = '443016858:AAEfK2ZuxgvxrI2ctbozfFLtSoY8Oj1KB6Q'
 
 # id_application = '6238003'  #реальный
-id_application = '6232845'  #тестовый
+id_application = '6368399'  #тестовый
 
 login = '89618754106'
 password = 'ubgcfy22331'
