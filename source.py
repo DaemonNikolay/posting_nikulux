@@ -15,6 +15,7 @@ def upload_vk(vk_api,
     upload_url = upload_url['upload_url']
 
     url = url_img
+    print("---" + str(url) + "---")
     filename = wget.download(url)
     os.rename(filename, u'' + os.getcwd() + '/' + "1.jpg")
 
@@ -265,7 +266,8 @@ id_application = constant.id_application
 login = constant.login
 password = constant.password
 
-session = vk.AuthSession(app_id = id_application, user_login = login, user_password = password, scope = 'wall, messages, photos, docs, video')
+session = vk.AuthSession(app_id = id_application, user_login = login, user_password = password,
+                         scope = 'wall, messages, photos, docs, video')
 vk_api = vk.API(session = session, v = '5.35', lang = 'ru')
 
 import datetime
