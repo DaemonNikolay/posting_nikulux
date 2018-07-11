@@ -1,5 +1,0 @@
-host = 'localhost'
-user = 'root'
-password = ''
-db = 'postinger-python'
-charset = 'utf8mb4'
