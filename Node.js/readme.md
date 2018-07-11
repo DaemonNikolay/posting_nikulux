@@ -1,1 +1,0 @@
-Ссылка с примерами - https://github.com/olnazx/node-vkapi
