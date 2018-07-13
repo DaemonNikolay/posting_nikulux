@@ -6,10 +6,16 @@ from local_data import db
 def main():
     path = '../local_data/posts.json'
 
-    with open(path, 'r') as file_posts:
-        content = json.loads(file_posts.read())
+    if not os.path.isfile(path):
+        print('File "{0}" not found!'.format(path))
+        return
 
-    print(content['posts'][0]['title'])
+    file_posts = open(path, 'r', encoding='utf8')
+    content = json.loads(file_posts.read())
+    file_posts.close()
+
+    for element in content['posts']:
+        print(element['title'])
 
 
 if __name__ == '__main__':
