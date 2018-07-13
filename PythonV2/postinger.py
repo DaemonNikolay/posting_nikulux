@@ -17,6 +17,8 @@ def auth():
     return vk_session.get_api()
 
 
+# HUMOR
+
 def select_humor():
     try:
         connection = pymysql.connect(host=db.Database.host,
@@ -87,6 +89,17 @@ def publication_humor(vk):
 
     except Exception as e:
         print(e)
+
+
+# -----------------------------
+
+
+# POSTS
+
+
+
+
+# -----------------------------
 
 
 def main():
