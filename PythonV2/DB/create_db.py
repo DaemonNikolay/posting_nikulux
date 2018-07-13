@@ -93,16 +93,21 @@ def create_table_video(connection):
 
 
 if __name__ == '__main__':
-    connection = pymysql.connect(host=db.Database.host,
-                                 user=db.Database.username,
-                                 db=db.Database.name_db,
-                                 password=db.Database.password,
-                                 charset=db.Database.charset)
+    try:
+        connection = pymysql.connect(host=db.Database.host,
+                                     user=db.Database.username,
+                                     db=db.Database.name_db,
+                                     password=db.Database.password,
+                                     charset=db.Database.charset)
 
-    create_table_tags(connection)
-    insert_default_data_table_tags(connection)
-    create_table_single_photo(connection)
-    create_table_posts(connection)
-    create_table_video(connection)
+        create_table_tags(connection)
+        insert_default_data_table_tags(connection)
+        create_table_single_photo(connection)
+        create_table_posts(connection)
+        create_table_video(connection)
 
-    connection.close()
+    except Exception as e:
+        print(e)
+
+    finally:
+        connection.close()
