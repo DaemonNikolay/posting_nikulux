@@ -1,6 +1,8 @@
 import vk_api
 import os
 import pymysql
+import json
+import requests
 from local_data import db
 
 
@@ -51,17 +53,25 @@ def main():
                                      charset=db.Database.charset)
 
         upload = vk_api.VkUpload(vk)
+        vk_use_api = vk.get_api()
 
         for name_image in names_images:
             try:
-                photo = upload.photo('{0}/{1}'.format(path_to_images, name_image),
-                                     album_id=db.GroupTest.album_id,
-                                     group_id=db.GroupTest.group_id)
+                upload.photo('{0}/{1}'.format(path_to_images, name_image),
+                             album_id=db.GroupTest.album_id,
+                             group_id=db.GroupTest.group_id)
 
-                attachment = 'photo{0}_{1}'.format(
-                    (photo[0]['owner_id'] * (-1)), photo[0]['id']
-                )
+                address_server = vk_use_api.photos.getWallUploadServer(group_id=db.GroupTest.group_id)
+                upload_photo = json.loads(requests.post(address_server['upload_url'], files={
+                    'photo': open('{0}/{1}'.format(path_to_images, name_image), 'rb')
+                }).text)
 
+                response = vk_use_api.photos.saveWallPhoto(group_id=db.GroupTest.group_id,
+                                                           photo=upload_photo['photo'],
+                                                           server=upload_photo['server'],
+                                                           hash=upload_photo['hash'])
+
+                attachment = 'photo{0}_{1}'.format(response[0]['owner_id'], response[0]['id'])
                 insert_attachments_to_db(connection, attachment, name_image)
 
             except Exception as e:
