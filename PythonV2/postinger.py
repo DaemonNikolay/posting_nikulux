@@ -26,7 +26,7 @@ def select_humor():
                                      charset=db.Database.charset)
 
         with connection.cursor() as cursor:
-            sql = """SELECT single_image.attachments, single_image.caption_photo, tags.tag 
+            sql = """SELECT single_image.attachments, single_image.id, tags.tag 
                      FROM tags 
                         LEFT JOIN single_image 
                         ON single_image.tag = tags.id 
@@ -43,6 +43,52 @@ def select_humor():
         connection.close()
 
 
+def update_used_for_table_single_image(single_image_id):
+    try:
+        connection = pymysql.connect(host=db.Database.host,
+                                     user=db.Database.username,
+                                     db=db.Database.name_db,
+                                     password=db.Database.password,
+                                     charset=db.Database.charset)
+
+        with connection.cursor() as cursor:
+            sql = """UPDATE single_image 
+                     SET single_image.used='1' 
+                     WHERE single_image.id={0}""".format(single_image_id)
+            cursor.execute(sql)
+
+        connection.commit()
+        return cursor.fetchone()
+
+    except Exception as e:
+        print(e)
+
+    finally:
+        connection.close()
+
+
+def publication_humor(vk):
+    humor = select_humor()
+
+    if humor is None:
+        print('All images are used!')
+        return
+
+    attachment = '{0},{1}'.format(humor[0], db.Nikulux.base_url)
+    message = humor[2]
+
+    try:
+        vk.wall.post(owner_id=-db.GroupTest.owner_id,
+                     from_group=db.GroupTest.from_group,
+                     message=message,
+                     attachments=attachment)
+
+        update_used_for_table_single_image(single_image_id=humor[1])
+
+    except Exception as e:
+        print(e)
+
+
 def main():
     vk = auth()
 
@@ -50,16 +96,7 @@ def main():
         print(vk)
         return
 
-    humor = select_humor()
-    attachment = '{0},{1}'.format(humor[0], db.Nikulux.base_url)
-    message = humor[2]
-
-    publication_humor = vk.wall.post(owner_id=-db.GroupTest.owner_id,
-                                     from_group=db.GroupTest.from_group,
-                                     message=message,
-                                     attachments=attachment)
-
-    print(publication_humor)
+    publication_humor(vk)
 
 
 if __name__ == '__main__':
