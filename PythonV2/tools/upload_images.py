@@ -1,6 +1,4 @@
 import vk_api
-import requests
-import json
 import os
 import pymysql
 from local_data import db
@@ -15,7 +13,6 @@ def auth():
     except vk_api.AuthError as error_msg:
         return 'Auth crash: ' + str(error_msg)
 
-    # return vk_session.get_api()
     return vk_session
 
 
@@ -34,6 +31,13 @@ def insert_attachments_to_db(connection, attachment, name_image):
 
 
 def main():
+    path_to_images = '../images/single_photo'
+    names_images = os.listdir(path_to_images)
+
+    if len(names_images) == 0:
+        print('Directory is empty!')
+        return
+
     vk = auth()
     if (str(vk).startswith('Auth crash')):
         print(vk)
@@ -45,30 +49,13 @@ def main():
                                  password=db.Database.password,
                                  charset=db.Database.charset)
 
-    path_to_images = '../images/single_photo'
     upload = vk_api.VkUpload(vk)
 
-    for name_image in os.listdir(path_to_images):
+    for name_image in names_images:
         try:
-            # address_server = vk.photos.getWallUploadServer(group_id=db.GroupTest.group_id)
-            # upload_photo = json.loads(requests.post(address_server['upload_url'], files={
-            #     'photo': open('{0}/{1}'.format(path_to_images, name_image), 'rb')
-            # }).text)
-            #
-            # response = vk.photos.saveWallPhoto(group_id=db.GroupTest.group_id,
-            #                                    photo=upload_photo['photo'],
-            #                                    server=upload_photo['server'],
-            #                                    hash=upload_photo['hash'])
-            #
-            # print(response)
-            #
-            # attachment = 'photo{0}_{1}'.format(response[0]['owner_id'], response[0]['id'])
-
-
             photo = upload.photo('{0}/{1}'.format(path_to_images, name_image),
                                  album_id=db.GroupTest.album_id,
-                                 group_id=db.GroupTest.group_id
-                                 )
+                                 group_id=db.GroupTest.group_id)
 
             attachment = 'photo{0}_{1}'.format(
                 (photo[0]['owner_id'] * (-1)), photo[0]['id']
