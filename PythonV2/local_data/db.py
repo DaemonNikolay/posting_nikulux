@@ -17,3 +17,7 @@ class PrivateDataVk:
     login = '89618754106'
     password = 'ubgcfy22331'
     scope = 'wall, messages, photos, video'
+
+
+class Nikulux:
+    base_url = 'http://nikulux.ru'
