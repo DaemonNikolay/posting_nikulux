@@ -18,31 +18,6 @@ def auth():
     return vk_session
 
 
-def select_tag(tag_id):
-    try:
-        connection = pymysql.connect(host=db.Database.host,
-                                     user=db.Database.username,
-                                     db=db.Database.name_db,
-                                     password=db.Database.password,
-                                     charset=db.Database.charset)
-
-        with connection.cursor() as cursor:
-            sql = """SELECT tags.tag 
-                     FROM posts 
-                        LEFT JOIN tags 
-                        ON tags.id=posts.id
-                     WHERE tags.id={0}""".format(tag_id)
-            cursor.execute(sql)
-
-        return cursor.fetchone()
-
-    except Exception as e:
-        print('Select tag: {0} - Exception: {1}'.format(tag_id, e))
-
-    finally:
-        connection.close()
-
-
 def insert_post(description, attachments, url, tag):
     try:
         connection = pymysql.connect(host=db.Database.host,
@@ -60,7 +35,7 @@ def insert_post(description, attachments, url, tag):
         return cursor.fetchone()
 
     except Exception as e:
-        print('Error: Exception: {0}'.format(e))
+        print('Error INSERT: Exception: {0}'.format(e))
 
     finally:
         connection.close()
@@ -90,32 +65,32 @@ def main():
         description = '{0}\n\n{1}'.format(element['title'],
                                           element['description'])
 
-        # try:
+        try:
+            upload.photo('{0}/{1}'.format(path_to_images_posts, element['attachment']),
+                         album_id=db.GroupTest.album_id,
+                         group_id=db.GroupTest.group_id)
 
-        upload.photo('{0}/{1}'.format(path_to_images_posts, element['attachment']),
-                     album_id=db.GroupTest.album_id,
-                     group_id=db.GroupTest.group_id)
+            address_server = vk_use_api.photos.getWallUploadServer(group_id=db.GroupTest.group_id)
+            upload_photo = json.loads(requests.post(address_server['upload_url'], files={
+                'photo': open('{0}/{1}'.format(path_to_images_posts, element['attachment']), 'rb')
+            }).text)
 
-        address_server = vk_use_api.photos.getWallUploadServer(group_id=db.GroupTest.group_id)
-        upload_photo = json.loads(requests.post(address_server['upload_url'], files={
-            'photo': open('{0}/{1}'.format(path_to_images_posts, element['attachment']), 'rb')
-        }).text)
+            response = vk_use_api.photos.saveWallPhoto(group_id=db.GroupTest.group_id,
+                                                       photo=upload_photo['photo'],
+                                                       server=upload_photo['server'],
+                                                       hash=upload_photo['hash'])
 
-        print(upload_photo)
-        response = vk_use_api.photos.saveWallPhoto(group_id=db.GroupTest.group_id, # Здесь ошибка, поле 'photo' пустое почему-то
-                                                   photo=upload_photo['photo'],
-                                                   server=upload_photo['server'],
-                                                   hash=upload_photo['hash'])
+            attachment = 'photo{0}_{1}'.format(response[0]['owner_id'], response[0]['id'])
 
-        attachment = 'photo{0}_{1}'.format(response[0]['owner_id'], response[0]['id'])
+            url = element['url']
+            tag = element['tag_id']
 
-        url = element['url']
-        tag = select_tag(element['tag_id'])
+            insert_post(description=description, attachments=attachment, url=url, tag=tag)
 
-        insert_post(description=description, attachments=attachment, url=url, tag=tag)
+            print('Article "{0}" - successfully!'.format(element['title']))
 
-        # except Exception as e:
-        #     print('Error: Exception: {0}'.format(e))
+        except Exception as e:
+            print('Article "{0}": Exception{1}'.format(element['title'], e))
 
 
 if __name__ == '__main__':
