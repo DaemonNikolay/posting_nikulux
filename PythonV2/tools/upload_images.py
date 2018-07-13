@@ -43,30 +43,35 @@ def main():
         print(vk)
         return
 
-    connection = pymysql.connect(host=db.Database.host,
-                                 user=db.Database.username,
-                                 db=db.Database.name_db,
-                                 password=db.Database.password,
-                                 charset=db.Database.charset)
+    try:
+        connection = pymysql.connect(host=db.Database.host,
+                                     user=db.Database.username,
+                                     db=db.Database.name_db,
+                                     password=db.Database.password,
+                                     charset=db.Database.charset)
 
-    upload = vk_api.VkUpload(vk)
+        upload = vk_api.VkUpload(vk)
 
-    for name_image in names_images:
-        try:
-            photo = upload.photo('{0}/{1}'.format(path_to_images, name_image),
-                                 album_id=db.GroupTest.album_id,
-                                 group_id=db.GroupTest.group_id)
+        for name_image in names_images:
+            try:
+                photo = upload.photo('{0}/{1}'.format(path_to_images, name_image),
+                                     album_id=db.GroupTest.album_id,
+                                     group_id=db.GroupTest.group_id)
 
-            attachment = 'photo{0}_{1}'.format(
-                (photo[0]['owner_id'] * (-1)), photo[0]['id']
-            )
+                attachment = 'photo{0}_{1}'.format(
+                    (photo[0]['owner_id'] * (-1)), photo[0]['id']
+                )
 
-            insert_attachments_to_db(connection, attachment, name_image)
+                insert_attachments_to_db(connection, attachment, name_image)
 
-        except Exception as e:
-            print('File: {0} - Exception: {1}'.format(name_image, e))
+            except Exception as e:
+                print('File: {0} - Exception: {1}'.format(name_image, e))
 
-    connection.close()
+    except Exception as e:
+        print(e)
+
+    finally:
+        connection.close()
 
 
 if __name__ == '__main__':
