@@ -69,7 +69,8 @@ def main():
                 response = vk_use_api.photos.saveWallPhoto(group_id=db.GroupTest.group_id,
                                                            photo=upload_photo['photo'],
                                                            server=upload_photo['server'],
-                                                           hash=upload_photo['hash'])
+                                                           hash=upload_photo['hash'],
+                                                           caption='#it_umor_nikulux')
 
                 attachment = 'photo{0}_{1}'.format(response[0]['owner_id'], response[0]['id'])
                 insert_attachments_to_db(connection, attachment, name_image)
