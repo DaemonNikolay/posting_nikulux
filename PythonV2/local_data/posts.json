@@ -4,16 +4,8 @@
       "title": "Менеджер пакетов pip для модулей и пакетов языка Python",
       "description": "pip (Python indexing project) — это система управления пакетами разработанная энтузиастами свободного программного обеспечения (open source project), оно же менеджер пакетов. В двух словах — это такое программное обеспечение, которое значительно облегчает жизнь разработчиков при использовании чужого кода, а также управлении своим.",
       "url": "http://nikulux.ru/python_uroki/menedzher-paketov-pip-dlya-modulej-i-paketov-yazyka-python/",
-      "attachments": "pythonbootcamp_editorial.jpg",
-      "tag_id": "",
-      "used": "0"
-    },
-    {
-      "title": "title 1",
-      "description": "description 1",
-      "url": "url 1",
-      "attachments": "attachments 1",
-      "tag_id": "",
+      "attachment": "004043 (Провода, столб, птицы).jpg",
+      "tag_id": "2",
       "used": "0"
     }
   ]
