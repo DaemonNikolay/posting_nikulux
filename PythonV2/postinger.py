@@ -3,6 +3,8 @@ import pymysql
 from local_data import db
 
 
+# GENERAL
+
 def auth():
     login, password = db.PrivateDataVk.login, db.PrivateDataVk.password
     vk_session = vk_api.VkApi(login=login,
@@ -16,6 +18,8 @@ def auth():
 
     return vk_session.get_api()
 
+
+# -----------------------------
 
 # HUMOR
 
@@ -95,8 +99,6 @@ def publication_humor(vk):
 
 
 # POSTS
-
-
 
 
 # -----------------------------
