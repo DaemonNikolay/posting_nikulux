@@ -57,7 +57,7 @@ def create_table_posts(connection):
             sql = """CREATE TABLE posts(
                         id INT AUTO_INCREMENT PRIMARY KEY,
                         title VARCHAR(70) NOT NULL,
-                        message VARCHAR(255) NOT NULL,
+                        description VARCHAR(255) NOT NULL,
                         attachments VARCHAR(255),
                         url VARCHAR(255),
                         tag INT NOT NULL,
