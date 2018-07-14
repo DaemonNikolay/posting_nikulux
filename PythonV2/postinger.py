@@ -43,7 +43,7 @@ def select_humor():
             return cursor.fetchone()
 
     except Exception as e:
-        print(e)
+        print('Exception in "SELECT humor": {0}'.format(e))
 
     finally:
         connection.close()
@@ -92,13 +92,84 @@ def publication_humor(vk):
         update_used_for_table_single_image(single_image_id=humor[1])
 
     except Exception as e:
-        print(e)
+        print('Publication humor - Exception: {0}'.format(e))
 
 
 # -----------------------------
 
 
 # POSTS
+
+def select_post():
+    try:
+        connection = pymysql.connect(host=db.Database.host,
+                                     user=db.Database.username,
+                                     db=db.Database.name_db,
+                                     password=db.Database.password,
+                                     charset=db.Database.charset)
+
+        with connection.cursor() as cursor:
+            sql = """SELECT posts.id, posts.content, posts.attachments, posts.url, tags.tag 
+                     FROM posts 
+                      LEFT JOIN tags 
+                      ON posts.tag=tags.id 
+                     WHERE posts.used='0' LIMIT 1"""
+
+            cursor.execute(sql)
+
+            return cursor.fetchone()
+
+    except Exception as e:
+        print('Exception in "SELECT post": {0}'.format(e))
+
+    finally:
+        connection.close()
+
+
+def update_used_for_table_posts(posts_id):
+    try:
+        connection = pymysql.connect(host=db.Database.host,
+                                     user=db.Database.username,
+                                     db=db.Database.name_db,
+                                     password=db.Database.password,
+                                     charset=db.Database.charset)
+
+        with connection.cursor() as cursor:
+            sql = """UPDATE posts 
+                     SET posts.used='1' 
+                     WHERE posts.id={0}""".format(posts_id)
+            cursor.execute(sql)
+
+        connection.commit()
+        return cursor.fetchone()
+
+    except Exception as e:
+        print(e)
+
+    finally:
+        connection.close()
+
+
+def publication_post(vk):
+    post = select_post()
+
+    if post is None:
+        print('All posts are used!')
+        return
+
+    attachment = '{0},{1}'.format(post[2], post[3])
+    message = '{0}\n\n{1}'.format(post[1], post[4])
+
+    try:
+        vk.wall.post(owner_id=-db.GroupTest.owner_id,
+                     from_group=db.GroupTest.from_group,
+                     message=message,
+                     attachments=attachment)
+
+        update_used_for_table_posts(posts_id=post[0])
+
+    except Exception as e:
+        print('Publication post - Exception: {0}'.format(e))
 
 
 # -----------------------------
@@ -112,6 +183,7 @@ def main():
         return
 
     publication_humor(vk)
+    publication_post(vk)
 
 
 if __name__ == '__main__':
