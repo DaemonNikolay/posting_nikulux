@@ -3,7 +3,7 @@ import pymysql
 from local_data import db
 
 
-# GENERAL
+# <GENERAL>
 
 def auth():
     login, password = db.PrivateDataVk.login, db.PrivateDataVk.password
@@ -19,9 +19,9 @@ def auth():
     return vk_session.get_api()
 
 
-# -----------------------------
+# </GENERAL>
 
-# HUMOR
+# <HUMOR>
 
 def select_humor():
     try:
@@ -95,10 +95,10 @@ def publication_humor(vk):
         print('Publication humor - Exception: {0}'.format(e))
 
 
-# -----------------------------
+# </HUMOR>
 
 
-# POSTS
+# <POSTS>
 
 def select_post():
     try:
@@ -172,7 +172,7 @@ def publication_post(vk):
         print('Publication post - Exception: {0}'.format(e))
 
 
-# -----------------------------
+# </POSTS>
 
 
 def main():
