@@ -175,6 +175,84 @@ def publication_post(vk):
 # </POSTS>
 
 
+# <VIDEO>
+
+def select_video():
+    try:
+        connection = pymysql.connect(host=db.Database.host,
+                                     user=db.Database.username,
+                                     db=db.Database.name_db,
+                                     password=db.Database.password,
+                                     charset=db.Database.charset)
+
+        with connection.cursor() as cursor:
+            sql = """SELECT video.id, video.message, video.attachments, tags.tag 
+                     FROM tags 
+                        LEFT JOIN video 
+                        ON video.tag = tags.id 
+                     WHERE video.used='0' 
+                     LIMIT 1"""
+            cursor.execute(sql)
+
+            return cursor.fetchone()
+
+    except Exception as e:
+        print('Exception in "SELECT video": {0}'.format(e))
+
+    finally:
+        connection.close()
+
+
+def update_used_for_table_video(video_id):
+    try:
+        connection = pymysql.connect(host=db.Database.host,
+                                     user=db.Database.username,
+                                     db=db.Database.name_db,
+                                     password=db.Database.password,
+                                     charset=db.Database.charset)
+
+        with connection.cursor() as cursor:
+            sql = """UPDATE video 
+                     SET video.used='1' 
+                     WHERE video.id={0}""".format(video_id)
+            cursor.execute(sql)
+
+        connection.commit()
+
+        return cursor.fetchone()
+
+    except Exception as e:
+        print('UPDATE TABLE video - Exception: {0}'.format(e))
+
+    finally:
+        connection.close()
+
+
+def publication_video(vk):
+    video = select_video()
+
+    if video is None:
+        print('All video are used!')
+        return
+
+    video_id = video[0]
+    message = '{0}\n\n{1}'.format(video[1], video[3])
+    attachments = video[2]
+
+    try:
+        vk.wall.post(owner_id=-db.GroupTest.owner_id,
+                     from_group=db.GroupTest.from_group,
+                     message=message,
+                     attachments=attachments)
+
+        update_used_for_table_video(video_id=video_id)
+
+    except Exception as e:
+        print('Publication video - Exception: {0}'.format(e))
+
+
+# </VIDEO>
+
 def main():
     vk = auth()
 
@@ -182,8 +260,9 @@ def main():
         print(vk)
         return
 
-    publication_humor(vk)
-    publication_post(vk)
+    # publication_humor(vk)
+    # publication_post(vk)
+    # publication_video(vk)
 
 
 if __name__ == '__main__':

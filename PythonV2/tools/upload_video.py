@@ -76,7 +76,7 @@ def main():
 
                 try:
                     query = requests.get(url=response['upload_url'])
-                    attachments += '{0}{1}_{2},'.format('video', int(response['owner_id'] * (-1)), response['video_id'])
+                    attachments += '{0}{1}_{2},'.format('video', response['owner_id'], response['video_id'])
 
                 except Exception as e:
                     print('Query - Exception: {0}'.format(e))
