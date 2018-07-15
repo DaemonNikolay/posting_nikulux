@@ -2,6 +2,7 @@ import vk_api
 import pymysql
 import os
 import json
+import requests
 from local_data import db
 
 
@@ -60,24 +61,40 @@ def main():
 
     vk_use_api = vk.get_api()
 
+    is_continue = False
+
     for element in content['video']:
         attachments = ''
         tag = element['tag_id']
 
         for video_link in element['links']:
-            response = vk_use_api.video.save(description=tag,
-                                             link=video_link,
-                                             group_id=db.GroupTest.group_id,
-                                             album_id=db.GroupTest.album_id_video)
+            try:
+                response = vk_use_api.video.save(description=tag,
+                                                 link=video_link,
+                                                 group_id=db.GroupTest.group_id,
+                                                 album_id=db.GroupTest.album_id_video)
 
-            attachments += '{0}{1}_{2},'.format('video', response['owner_id'], response['video_id'])
+                try:
+                    query = requests.get(url=response['upload_url'])
+                    attachments += '{0}{1}_{2},'.format('video', int(response['owner_id'] * (-1)), response['video_id'])
 
-        message = element['message']
-        attachments = attachments[0:len(attachments) - 1]
+                except Exception as e:
+                    print('Query - Exception: {0}'.format(e))
+                finally:
+                    query.close()
 
-        insert_video(message=message,
-                     attachments=attachments,
-                     tag=tag)
+                is_continue = True
+
+            except Exception as e:
+                print('Video save - Exception: {0}'.format(e))
+
+        if is_continue:
+            message = element['message']
+            attachments = attachments[0:len(attachments) - 1]
+
+            insert_video(message=message,
+                         attachments=attachments,
+                         tag=tag)
 
 
 if __name__ == '__main__':
