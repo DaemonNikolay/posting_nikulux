@@ -58,7 +58,7 @@ def main():
         for name_image in names_images:
             try:
                 upload.photo('{0}/{1}'.format(path_to_images, name_image),
-                             album_id=db.GroupTest.album_id,
+                             album_id=db.GroupTest.album_id_img,
                              group_id=db.GroupTest.group_id)
 
                 address_server = vk_use_api.photos.getWallUploadServer(group_id=db.GroupTest.group_id)

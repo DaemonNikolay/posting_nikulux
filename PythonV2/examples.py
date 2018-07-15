@@ -1,6 +1,7 @@
 import vk_api
 import requests
 import json
+from local_data import db
 
 
 def main():
@@ -15,46 +16,26 @@ def main():
         print(error_msg)
         return
 
-    """ В VkUpload реализованы методы загрузки файлов в ВК
-    """
-
-    # upload = vk_api.VkUpload(vk_session)
-    #
-    # photo = upload.photo(  # Подставьте свои данные
-    #     'images/single_photo/1.png',
-    #     album_id=247772750,
-    #     group_id=155660424
-    # )
-    #
-    # vk_photo_url = 'https://vk.com/photo{}_{}'.format(
-    #     photo[0]['owner_id'], photo[0]['id']
-    # )
-
-
     vk = vk_session.get_api()
 
-    address_server = vk.photos.getWallUploadServer(group_id=155660424)
-    upload_photo = json.loads(requests.post(address_server['upload_url'], files={
-        'photo': open('images/single_photo/1.jpg', 'rb')
-    }).text)
+    response = vk.video.save(description='This is text',
+                             # отсутствие текста или символ пробела говорит о том, что нужно использовать текст по default из видео
+                             link='https://www.youtube.com/watch?v=RK1K2bCg4J8',
+                             group_id=db.GroupTest.group_id,
+                             album_id=db.GroupTest.album_id_video)
 
-    response = vk.photos.saveWallPhoto(group_id=155660424,
-                                       photo=upload_photo['photo'],
-                                       server=upload_photo['server'],
-                                       hash=upload_photo['hash'],
-                                       caption='Testing image')
-    #
-    attachments = 'photo{0}_{1}'.format(response[0]['owner_id'], response[0]['id'])
-    #
-    # print(attachments)
-    # # attachments = 'photo' + str(response[0]['owner_id']) + '_' + ''
-    #
+    attachment = '{0}{1}_{2}'.format('video', response['owner_id'], response['video_id'])
 
-    print(attachments)
-    vk.wall.post(owner_id=-155660424,
-                 from_group=1,
-                 message='Test 2',
-                 attachments=attachments)
+    query = requests.get(url=response['upload_url'])
+    print(query.text)
+    query.close()
+
+    vk.wall.post(owner_id=-db.GroupTest.owner_id,
+                 from_group=db.GroupTest.from_group,
+                 message='Test video 1',
+                 attachments=attachment)
+
+    print(response)
 
 
 if __name__ == '__main__':

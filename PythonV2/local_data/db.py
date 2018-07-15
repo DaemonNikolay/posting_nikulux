@@ -7,7 +7,8 @@ class Database:
 
 
 class GroupTest:
-    album_id = 253996367
+    album_id_img = 253996367
+    album_id_video = 1
     group_id = 155660424
     owner_id = group_id
     from_group = 1
