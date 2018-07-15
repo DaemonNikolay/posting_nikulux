@@ -13,13 +13,24 @@ def auth():
 
     try:
         vk_session.auth(token_only=True)
+
     except vk_api.AuthError as error_msg:
-        return 'Auth crash: ' + str(error_msg)
+        log = 'Auth crash: {0}'.format(error_msg)
+        print(log)
+        creating_logs(message=log,
+                      type_publication=db.TypePublication.auth)
+
+        return log
+
+    log = 'Auth is completed'
+    print(log)
+    creating_logs(message=log,
+                  type_publication=db.TypePublication.auth)
 
     return vk_session.get_api()
 
 
-def creating_logs(message):
+def creating_logs(message, type_publication):
     try:
         connection = pymysql.connect(host=db.Database.host,
                                      user=db.Database.username,
@@ -29,11 +40,13 @@ def creating_logs(message):
 
         with connection.cursor() as cursor:
             sql = """INSERT INTO logs_publications 
-                     SET logs_publications.text={0} 
-                     """.format(message)
+                     SET logs_publications.text='{0}',
+                         logs_publications.type_publication='{1}'
+                     """.format(message, type_publication)
             cursor.execute(sql)
 
         connection.commit()
+
         return cursor.fetchone()
 
     except Exception as e:
@@ -64,10 +77,18 @@ def select_humor():
                      LIMIT 1"""
             cursor.execute(sql)
 
+            log = '"SELECT humor" is completed'
+            print(log)
+            creating_logs(message=log,
+                          type_publication=db.TypePublication.select)
+
             return cursor.fetchone()
 
     except Exception as e:
-        print('Exception in "SELECT humor": {0}'.format(e))
+        log = '"SELECT humor" - Exception: {0}'.format(e)
+        print(log)
+        creating_logs(message=log,
+                      type_publication=db.TypePublication.select)
 
     finally:
         connection.close()
@@ -88,10 +109,19 @@ def update_used_for_table_single_image(single_image_id):
             cursor.execute(sql)
 
         connection.commit()
+
+        log = '"UPDATE used TABLE single_image" is completed'
+        print(log)
+        creating_logs(message=log,
+                      type_publication=db.TypePublication.update)
+
         return cursor.fetchone()
 
     except Exception as e:
-        print(e)
+        log = '"UPDATE used TABLE single_image" - Exception: {0}'.format(e)
+        print(log)
+        creating_logs(message=log,
+                      type_publication=db.TypePublication.update)
 
     finally:
         connection.close()
@@ -101,7 +131,11 @@ def publication_humor(vk):
     humor = select_humor()
 
     if humor is None:
-        print('All images are used!')
+        log = 'All images are used'
+        print(log)
+        creating_logs(message=log,
+                      type_publication=db.TypePublication.humor)
+
         return
 
     attachment = '{0},{1}'.format(humor[0], db.Nikulux.base_url)
@@ -113,14 +147,18 @@ def publication_humor(vk):
                      message=message,
                      attachments=attachment)
 
+        log = 'Publication humor is completed'
+        print(log)
+        creating_logs(message=log,
+                      type_publication=db.TypePublication.humor)
+
         update_used_for_table_single_image(single_image_id=humor[1])
 
-        log = 'Publication humor is completed!'
-        print(log)
-        creating_logs(log)
-
     except Exception as e:
-        print('Publication humor - Exception: {0}'.format(e))
+        log = 'Publication humor - Exception: {0}'.format(e)
+        print(log)
+        creating_logs(message=log,
+                      type_publication=db.TypePublication.humor)
 
 
 # </HUMOR>
@@ -145,10 +183,18 @@ def select_post():
 
             cursor.execute(sql)
 
+            log = '"SELECT post" is completed'
+            print(log)
+            creating_logs(message=log,
+                          type_publication=db.TypePublication.select)
+
             return cursor.fetchone()
 
     except Exception as e:
-        print('Exception in "SELECT post": {0}'.format(e))
+        log = '"SELECT post" - Exception: {0}'.format(e)
+        print(log)
+        creating_logs(message=log,
+                      type_publication=db.TypePublication.select)
 
     finally:
         connection.close()
@@ -169,10 +215,19 @@ def update_used_for_table_posts(posts_id):
             cursor.execute(sql)
 
         connection.commit()
+
+        log = '"UPDATE used TABLE posts" is completed'
+        print(log)
+        creating_logs(message=log,
+                      type_publication=db.TypePublication.update)
+
         return cursor.fetchone()
 
     except Exception as e:
-        print(e)
+        log = '"UPDATE used TABLE posts" - Exception: {0}'.format(e)
+        print(log)
+        creating_logs(message=log,
+                      type_publication=db.TypePublication.update)
 
     finally:
         connection.close()
@@ -182,7 +237,11 @@ def publication_post(vk):
     post = select_post()
 
     if post is None:
-        print('All posts are used!')
+        log = 'All posts are used'
+        print(log)
+        creating_logs(message=log,
+                      type_publication=db.TypePublication.posts)
+
         return
 
     attachment = '{0},{1}'.format(post[2], post[3])
@@ -194,14 +253,18 @@ def publication_post(vk):
                      message=message,
                      attachments=attachment)
 
+        log = 'Publication post is completed'
+        print(log)
+        creating_logs(message=log,
+                      type_publication=db.TypePublication.posts)
+
         update_used_for_table_posts(posts_id=post[0])
 
-        log = 'Publication post is completed!'
-        print(log)
-        creating_logs(log)
-
     except Exception as e:
-        print('Publication post - Exception: {0}'.format(e))
+        log = 'Publication post - Exception: {0}'.format(e)
+        print(log)
+        creating_logs(message=log,
+                      type_publication=db.TypePublication.posts)
 
 
 # </POSTS>
@@ -226,10 +289,18 @@ def select_video():
                      LIMIT 1"""
             cursor.execute(sql)
 
+            log = '"SELECT video" is completed'
+            print(log)
+            creating_logs(message=log,
+                          type_publication=db.TypePublication.select)
+
             return cursor.fetchone()
 
     except Exception as e:
-        print('Exception in "SELECT video": {0}'.format(e))
+        log = '"SELECT video" - Exception: {0}'.format(e)
+        print(log)
+        creating_logs(message=log,
+                      type_publication=db.TypePublication.select)
 
     finally:
         connection.close()
@@ -251,10 +322,18 @@ def update_used_for_table_video(video_id):
 
         connection.commit()
 
+        log = '"UPDATE used TABLE video" is completed'
+        print(log)
+        creating_logs(message=log,
+                      type_publication=db.TypePublication.update)
+
         return cursor.fetchone()
 
     except Exception as e:
-        print('UPDATE TABLE video - Exception: {0}'.format(e))
+        log = '"UPDATE used TABLE video" - Exception: {0}'.format(e)
+        print(log)
+        creating_logs(message=log,
+                      type_publication=db.TypePublication.update)
 
     finally:
         connection.close()
@@ -264,7 +343,11 @@ def publication_video(vk):
     video = select_video()
 
     if video is None:
-        print('All video are used!')
+        log = 'All video are used'
+        print(log)
+        creating_logs(message=log,
+                      type_publication=db.TypePublication.video)
+
         return
 
     video_id = video[0]
@@ -277,12 +360,18 @@ def publication_video(vk):
                      message=message,
                      attachments=attachments)
 
+        log = 'Publication video {0} is completed'.format(video[1])
+        print(log)
+        creating_logs(message=log,
+                      type_publication=db.TypePublication.video)
+
         update_used_for_table_video(video_id=video_id)
 
-        print('Publication video is completed!')
-
     except Exception as e:
-        print('Publication video - Exception: {0}'.format(e))
+        log = 'Publication video - Exception: {0}'.format(e)
+        print(log)
+        creating_logs(message=log,
+                      type_publication=db.TypePublication.video)
 
 
 # </VIDEO>

@@ -28,3 +28,6 @@ class TypePublication:
     posts = 'posts'
     humor = 'humor'
     video = 'video'
+    auth = 'auth'
+    select = 'select'
+    update = 'update'
