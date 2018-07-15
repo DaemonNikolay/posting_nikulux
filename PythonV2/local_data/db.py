@@ -31,3 +31,7 @@ class TypePublication:
     auth = 'auth'
     select = 'select'
     update = 'update'
+
+
+class Publications:
+    timer_to_seconds = 7200

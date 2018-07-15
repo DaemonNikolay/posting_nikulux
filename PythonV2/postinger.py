@@ -1,5 +1,7 @@
 import vk_api
 import pymysql
+import random
+import time
 from local_data import db
 
 
@@ -383,9 +385,17 @@ def main():
         print(vk)
         return
 
-    publication_humor(vk)
-    publication_post(vk)
-    publication_video(vk)
+    while True:
+        option = random.randint(0, 2)
+
+        if option == 0:
+            publication_humor(vk)
+        elif option == 1:
+            publication_post(vk)
+        elif option == 2:
+            publication_video(vk)
+
+        time.sleep(db.Publications.timer_to_seconds)
 
 
 if __name__ == '__main__':
