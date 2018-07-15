@@ -6,7 +6,7 @@ class Database:
     charset = 'utf8mb4'
 
 
-class GroupTest:
+class Group:
     album_id_img = 253996367
     album_id_video = 1
     group_id = 155660424

@@ -84,8 +84,8 @@ def publication_humor(vk):
     message = humor[2]
 
     try:
-        vk.wall.post(owner_id=-db.GroupTest.owner_id,
-                     from_group=db.GroupTest.from_group,
+        vk.wall.post(owner_id=-db.Group.owner_id,
+                     from_group=db.Group.from_group,
                      message=message,
                      attachments=attachment)
 
@@ -161,8 +161,8 @@ def publication_post(vk):
     message = '{0}\n\n{1}'.format(post[1], post[4])
 
     try:
-        vk.wall.post(owner_id=-db.GroupTest.owner_id,
-                     from_group=db.GroupTest.from_group,
+        vk.wall.post(owner_id=-db.Group.owner_id,
+                     from_group=db.Group.from_group,
                      message=message,
                      attachments=attachment)
 
@@ -240,8 +240,8 @@ def publication_video(vk):
     attachments = video[2]
 
     try:
-        vk.wall.post(owner_id=-db.GroupTest.owner_id,
-                     from_group=db.GroupTest.from_group,
+        vk.wall.post(owner_id=-db.Group.owner_id,
+                     from_group=db.Group.from_group,
                      message=message,
                      attachments=attachments)
 

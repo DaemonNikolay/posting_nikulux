@@ -71,8 +71,8 @@ def main():
             try:
                 response = vk_use_api.video.save(description=tag,
                                                  link=video_link,
-                                                 group_id=db.GroupTest.group_id,
-                                                 album_id=db.GroupTest.album_id_video)
+                                                 group_id=db.Group.group_id,
+                                                 album_id=db.Group.album_id_video)
 
                 try:
                     query = requests.get(url=response['upload_url'])

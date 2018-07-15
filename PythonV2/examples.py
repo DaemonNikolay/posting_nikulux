@@ -28,8 +28,8 @@ def main():
     response = vk.video.save(description='This is text',
                              # отсутствие текста или символ пробела говорит о том, что нужно использовать текст по default из видео
                              link='https://www.youtube.com/watch?v=RK1K2bCg4J8',
-                             group_id=db.GroupTest.group_id,
-                             album_id=db.GroupTest.album_id_video)
+                             group_id=db.Group.group_id,
+                             album_id=db.Group.album_id_video)
 
     attachment = '{0}{1}_{2}'.format('video', response['owner_id'], response['video_id'])
 
@@ -37,8 +37,8 @@ def main():
     print(query.text)
     query.close()
 
-    vk.wall.post(owner_id=-db.GroupTest.owner_id,
-                 from_group=db.GroupTest.from_group,
+    vk.wall.post(owner_id=-db.Group.owner_id,
+                 from_group=db.Group.from_group,
                  message='Test video 1',
                  attachments=attachment)
 

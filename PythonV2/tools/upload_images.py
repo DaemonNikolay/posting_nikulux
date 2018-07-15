@@ -58,15 +58,15 @@ def main():
         for name_image in names_images:
             try:
                 upload.photo('{0}/{1}'.format(path_to_images, name_image),
-                             album_id=db.GroupTest.album_id_img,
-                             group_id=db.GroupTest.group_id)
+                             album_id=db.Group.album_id_img,
+                             group_id=db.Group.group_id)
 
-                address_server = vk_use_api.photos.getWallUploadServer(group_id=db.GroupTest.group_id)
+                address_server = vk_use_api.photos.getWallUploadServer(group_id=db.Group.group_id)
                 upload_photo = json.loads(requests.post(address_server['upload_url'], files={
                     'photo': open('{0}/{1}'.format(path_to_images, name_image), 'rb')
                 }).text)
 
-                response = vk_use_api.photos.saveWallPhoto(group_id=db.GroupTest.group_id,
+                response = vk_use_api.photos.saveWallPhoto(group_id=db.Group.group_id,
                                                            photo=upload_photo['photo'],
                                                            server=upload_photo['server'],
                                                            hash=upload_photo['hash'],
