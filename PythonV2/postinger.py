@@ -19,6 +19,30 @@ def auth():
     return vk_session.get_api()
 
 
+def creating_logs(message):
+    try:
+        connection = pymysql.connect(host=db.Database.host,
+                                     user=db.Database.username,
+                                     db=db.Database.name_db,
+                                     password=db.Database.password,
+                                     charset=db.Database.charset)
+
+        with connection.cursor() as cursor:
+            sql = """INSERT INTO logs_publications 
+                     SET logs_publications.text={0} 
+                     """.format(single_image_id)
+            cursor.execute(sql)
+
+        connection.commit()
+        return cursor.fetchone()
+
+    except Exception as e:
+        print(e)
+
+    finally:
+        connection.close()
+
+
 # </GENERAL>
 
 # <HUMOR>

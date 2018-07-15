@@ -22,3 +22,9 @@ class PrivateDataVk:
 
 class Nikulux:
     base_url = 'http://nikulux.ru'
+
+
+class TypePublication:
+    posts = 'posts'
+    humor = 'humor'
+    video = 'video'
