@@ -91,6 +91,8 @@ def publication_humor(vk):
 
         update_used_for_table_single_image(single_image_id=humor[1])
 
+        print('Publication humor is completed!')
+
     except Exception as e:
         print('Publication humor - Exception: {0}'.format(e))
 
@@ -167,6 +169,8 @@ def publication_post(vk):
                      attachments=attachment)
 
         update_used_for_table_posts(posts_id=post[0])
+
+        print('Publication post is completed!')
 
     except Exception as e:
         print('Publication post - Exception: {0}'.format(e))
@@ -247,6 +251,8 @@ def publication_video(vk):
 
         update_used_for_table_video(video_id=video_id)
 
+        print('Publication video is completed!')
+
     except Exception as e:
         print('Publication video - Exception: {0}'.format(e))
 
@@ -260,9 +266,9 @@ def main():
         print(vk)
         return
 
-    # publication_humor(vk)
-    # publication_post(vk)
-    # publication_video(vk)
+    publication_humor(vk)
+    publication_post(vk)
+    publication_video(vk)
 
 
 if __name__ == '__main__':
