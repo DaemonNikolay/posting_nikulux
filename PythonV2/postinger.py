@@ -30,7 +30,7 @@ def creating_logs(message):
         with connection.cursor() as cursor:
             sql = """INSERT INTO logs_publications 
                      SET logs_publications.text={0} 
-                     """.format(single_image_id)
+                     """.format(message)
             cursor.execute(sql)
 
         connection.commit()
@@ -115,7 +115,9 @@ def publication_humor(vk):
 
         update_used_for_table_single_image(single_image_id=humor[1])
 
-        print('Publication humor is completed!')
+        log = 'Publication humor is completed!'
+        print(log)
+        creating_logs(log)
 
     except Exception as e:
         print('Publication humor - Exception: {0}'.format(e))
@@ -194,7 +196,9 @@ def publication_post(vk):
 
         update_used_for_table_posts(posts_id=post[0])
 
-        print('Publication post is completed!')
+        log = 'Publication post is completed!'
+        print(log)
+        creating_logs(log)
 
     except Exception as e:
         print('Publication post - Exception: {0}'.format(e))
