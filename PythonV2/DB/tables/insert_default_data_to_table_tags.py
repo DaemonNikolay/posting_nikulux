@@ -21,7 +21,12 @@ def insert_default_data_to_table_tags(connection):
                                                    ('#c_sharp_nikulux'),
                                                    ('#python_book_nikulux'),
                                                    ('#c_sharp_book_nikulux'),
-                                                   ('#java_book_nikulux ')"""
+                                                   ('#java_book_nikulux'),
+                                                   ('#js_nikulux'),
+                                                   ('#git_nikulux'),
+                                                   ('#node_js_nikulux'),
+                                                   ('#go_nikulux'),
+                                                   ('#linux_nikulux')"""
             cursor.execute(sql)
 
         connection.commit()
