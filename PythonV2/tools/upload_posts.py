@@ -4,6 +4,7 @@ import json
 import pymysql
 import requests
 from local_data import db
+from local_data import model_database as model_db
 
 
 def auth():
@@ -41,26 +42,32 @@ def insert_post(description, attachments, url, tag):
         connection.close()
 
 
+def select_file_posts(path):
+    file_posts = open(path, 'r', encoding='utf8')
+    content = json.loads(file_posts.read())
+    file_posts.close()
+
+    return content
+
+
 def main():
     vk = auth()
     if (str(vk).startswith('Auth crash')):
         print(vk)
         return
 
-    path = '../local_data/posts.json'
+    path = db.General.path_to_posts
 
     if not os.path.isfile(path):
         print('File "{0}" not found!'.format(path))
         return
 
-    file_posts = open(path, 'r', encoding='utf8')
-    content = json.loads(file_posts.read())
-    file_posts.close()
+    content = select_file_posts(path=path)
 
     upload = vk_api.VkUpload(vk)
     vk_use_api = vk.get_api()
 
-    path_to_images_posts = '../images/posts'
+    path_to_images_posts = db.General.path_to_images_posts
     for element in content['posts']:
         description = '{0}\n\n{1}'.format(element['title'],
                                           element['description'])

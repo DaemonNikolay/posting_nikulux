@@ -35,3 +35,7 @@ class TypePublication:
 
 class Publications:
     timer_to_seconds = 7200
+
+class General:
+    path_to_images_posts = '../images/posts'
+    path_to_posts = '../local_data/posts.json'
