@@ -7,7 +7,7 @@ def insert_default_data_to_table_tags(connection):
                                                    ('#it_video_nikulux'),
                                                    ('#c_sharp_video_nikulux'),
                                                    ('#android_video_nikulux'),
-                                                   ('#js_tasks_video_nikulux'),
+                                                   ('#js_video_nikulux'),
                                                    ('#ajax_video_nikulux'),
                                                    ('#node_js_video_nikulux'),
                                                    ('#linux_video_nikulux'),
@@ -26,7 +26,9 @@ def insert_default_data_to_table_tags(connection):
                                                    ('#git_nikulux'),
                                                    ('#node_js_nikulux'),
                                                    ('#go_nikulux'),
-                                                   ('#linux_nikulux')"""
+                                                   ('#linux_nikulux'),
+                                                   ('#angular_nikulux'),
+                                                   ('#yii2_video_nikulux')"""
             cursor.execute(sql)
 
         connection.commit()

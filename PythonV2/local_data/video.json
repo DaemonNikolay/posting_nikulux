@@ -8,8 +8,18 @@
         "https://www.youtube.com/watch?v=iMbRLH_sx9w&t=0s&list=PLQwXjjTVqyUHMapmff5_-_oV3Vez_lRAf&index=3",
         "https://www.youtube.com/watch?v=fH6G8KrjElk&t=0s&list=PLQwXjjTVqyUHMapmff5_-_oV3Vez_lRAf&index=4",
         "https://www.youtube.com/watch?v=w0WYje4HIs8&t=0s&list=PLQwXjjTVqyUHMapmff5_-_oV3Vez_lRAf&index=5",
-       "https://www.youtube.com/watch?v=wxFokJiOCu0&t=0s&list=PLQwXjjTVqyUHMapmff5_-_oV3Vez_lRAf&index=6",
+        "https://www.youtube.com/watch?v=wxFokJiOCu0&t=0s&list=PLQwXjjTVqyUHMapmff5_-_oV3Vez_lRAf&index=6",
         "https://www.youtube.com/watch?v=Byu11ALeI9A&t=0s&list=PLQwXjjTVqyUHMapmff5_-_oV3Vez_lRAf&index=7"
+      ]
+    },
+    {
+      "message": "Практикум Javascript (часть 1/2)",
+      "tag_id": "7",
+      "links": [
+        "https://www.youtube.com/watch?v=PrXD97zx_Rc&t=1893s&list=PLDmWuBfh49Z4xKRClnk3IOsZD5qLCAdXf&index=2",
+        "https://www.youtube.com/watch?v=lR7RyisQB-o&t=0s&list=PLDmWuBfh49Z4xKRClnk3IOsZD5qLCAdXf&index=3",
+        "https://www.youtube.com/watch?v=Ac0A2x7RxUw&t=0s&list=PLDmWuBfh49Z4xKRClnk3IOsZD5qLCAdXf&index=4",
+        "https://www.youtube.com/watch?v=UWOGhRM-uOE&t=0s&list=PLDmWuBfh49Z4xKRClnk3IOsZD5qLCAdXf&index=5"
       ]
     },
     {
@@ -21,6 +31,28 @@
         "https://www.youtube.com/watch?v=L08WMqOSNqI&t=0s&list=PLQwXjjTVqyUHMapmff5_-_oV3Vez_lRAf&index=10",
         "https://www.youtube.com/watch?v=rid1XgKpPZU&t=0s&list=PLQwXjjTVqyUHMapmff5_-_oV3Vez_lRAf&index=11",
         "https://www.youtube.com/watch?v=K5xySU6wFQc&t=0s&list=PLQwXjjTVqyUHMapmff5_-_oV3Vez_lRAf&index=12"
+      ]
+    },
+    {
+      "message": "SPA на Angular",
+      "tag_id": "27",
+      "links": [
+        "https://www.youtube.com/watch?v=Pww35rSOD7E&list=PLDmWuBfh49Z5sCPJjgshknkdhz4duUVAp&t=0s&index=2",
+        "https://www.youtube.com/watch?v=8Ay6F2dyM6M&list=PLDmWuBfh49Z5sCPJjgshknkdhz4duUVAp&t=0s&index=3",
+        "https://www.youtube.com/watch?v=OrihMdvTSsY&list=PLDmWuBfh49Z5sCPJjgshknkdhz4duUVAp&t=0s&index=4",
+        "https://www.youtube.com/watch?v=5bMRqnR0W_o&list=PLDmWuBfh49Z5sCPJjgshknkdhz4duUVAp&t=0s&index=5",
+        "https://www.youtube.com/watch?v=7HcPsLiSFac&list=PLDmWuBfh49Z5sCPJjgshknkdhz4duUVAp&t=0s&index=6",
+        "https://www.youtube.com/watch?v=1xVx1XuQhHo&list=PLDmWuBfh49Z5sCPJjgshknkdhz4duUVAp&t=0s&index=7"
+      ]
+    },
+    {
+      "message": "Практикум Javascript (часть 2/2)",
+      "tag_id": "7",
+      "links": [
+        "https://www.youtube.com/watch?v=k_lFxn7fCk8&t=0s&list=PLDmWuBfh49Z4xKRClnk3IOsZD5qLCAdXf&index=6",
+        "https://www.youtube.com/watch?v=egZOlsEEJ7Q&t=0s&list=PLDmWuBfh49Z4xKRClnk3IOsZD5qLCAdXf&index=7",
+        "https://www.youtube.com/watch?v=sb4dE8kA0hw&t=0s&list=PLDmWuBfh49Z4xKRClnk3IOsZD5qLCAdXf&index=8",
+        "https://www.youtube.com/watch?v=LsB1PUz-kR8&t=0s&list=PLDmWuBfh49Z4xKRClnk3IOsZD5qLCAdXf&index=9"
       ]
     },
     {
@@ -36,38 +68,22 @@
       ]
     },
     {
-      "message": "",
-      "tag_id": "",
+      "message": "Yii2 - RBAC",
+      "tag_id": "28",
       "links": [
-        ""
+        "https://www.youtube.com/watch?v=Ef2MYHWxa6E&index=2&list=PLa9lO_Eq-vZVnnm9CT6ifNJpNyVumxc3o&t=1s",
+        "https://www.youtube.com/watch?v=MTRUjYqZK2c&index=3&list=PLa9lO_Eq-vZVnnm9CT6ifNJpNyVumxc3o&t=1588s"
       ]
     },
     {
-      "message": "",
-      "tag_id": "",
+      "message": "Основы Java (1/4)",
+      "tag_id": "3",
       "links": [
-        ""
-      ]
-    },
-    {
-      "message": "",
-      "tag_id": "",
-      "links": [
-        ""
-      ]
-    },
-    {
-      "message": "",
-      "tag_id": "",
-      "links": [
-        ""
-      ]
-    },
-    {
-      "message": "",
-      "tag_id": "",
-      "links": [
-        ""
+        "https://www.youtube.com/watch?v=owuKmB4Imks&index=2&list=PLQwXjjTVqyUFAm2ZpCS20Oddpj85VIKFQ&t=2s",
+        "https://www.youtube.com/watch?v=tEEzwJrFk3Y&index=3&list=PLQwXjjTVqyUFAm2ZpCS20Oddpj85VIKFQ&t=0s",
+        "https://www.youtube.com/watch?v=Rnp_tmPfP5s&index=4&list=PLQwXjjTVqyUFAm2ZpCS20Oddpj85VIKFQ&t=0s",
+        "https://www.youtube.com/watch?v=Bmgmb4wkKe0&index=5&list=PLQwXjjTVqyUFAm2ZpCS20Oddpj85VIKFQ&t=0s",
+        "https://www.youtube.com/watch?v=yUNSElzDQwU&index=6&list=PLQwXjjTVqyUFAm2ZpCS20Oddpj85VIKFQ&t=0s"
       ]
     }
   ]
