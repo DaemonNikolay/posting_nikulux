@@ -7,9 +7,9 @@ class Database:
 
 
 class Group:
-    album_id_img = 253996367
-    album_id_video = 1
-    group_id = 155660424
+    album_id_img = 254584117  # 253996367
+    album_id_video = 21
+    group_id = 145125017  # 155660424
     owner_id = group_id
     from_group = 1
 
@@ -35,6 +35,7 @@ class TypePublication:
 
 class Publications:
     timer_to_seconds = 7200
+
 
 class General:
     path_to_images_posts = '../images/posts'

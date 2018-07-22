@@ -393,17 +393,21 @@ def main():
         print(vk)
         return
 
-    while True:
-        option = random.randint(0, 2)
+    publication_humor(vk)
+    publication_post(vk)
+    publication_video(vk)
 
-        if option == 0:
-            publication_humor(vk)
-        elif option == 1:
-            publication_post(vk)
-        elif option == 2:
-            publication_video(vk)
-
-        time.sleep(db.Publications.timer_to_seconds)
+    # while True:
+    #     option = random.randint(0, 2)
+    #
+    #     if option == 0:
+    #         publication_humor(vk)
+    #     elif option == 1:
+    #         publication_post(vk)
+    #     elif option == 2:
+    #         publication_video(vk)
+    #
+    #     time.sleep(db.Publications.timer_to_seconds)
 
 
 if __name__ == '__main__':
