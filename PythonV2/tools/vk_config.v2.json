@@ -146,7 +146,7 @@
     "token": {
       "app6222115": {
         "scope_wall, messages, photos, video": {
-          "access_token": "06c53b7ef6462877ab5784c410de294de69276ee8089e0415368516322b9917c9f0f67c76dd5676a4cb3a",
+          "access_token": "3ed4c0d56740fb1ac2c3e5775b67b5b24d53fdf0dee93e502ab496fd8c13c3834549afd38ae85c31d108b",
           "expires_in": "86400",
           "user_id": "135244712"
         }

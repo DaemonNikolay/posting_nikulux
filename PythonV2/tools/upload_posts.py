@@ -4,7 +4,6 @@ import json
 import pymysql
 import requests
 from local_data import db
-from local_data import model_database as model_db
 
 
 def auth():
