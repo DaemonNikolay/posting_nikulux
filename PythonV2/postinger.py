@@ -539,6 +539,7 @@ def main():
     if not is_auth(vk=vk):
         return
 
+
     is_auth_failed = False
     is_publication = False
 
