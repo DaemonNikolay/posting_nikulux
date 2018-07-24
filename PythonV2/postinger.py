@@ -19,31 +19,37 @@ def auth():
     except vk_api.AuthError as error_msg:
         log = 'Error: auth crash: {0}'.format(error_msg)
         print(log)
-        creating_logs(message=log,
+        logging_to_db(message=log,
                       type_publication=db.TypePublication.auth)
 
         return log
 
+    vk = vk_session.get_api()
+
     log = 'Complete: auth is completed'
     print(log)
-    creating_logs(message=log,
-                  type_publication=db.TypePublication.auth)
 
-    return vk_session.get_api()
+    logging_to_db(message=log,
+                  type_publication=db.TypePublication.auth)
+    logging_to_vk(vk=vk,
+                  message=log)
+
+    return vk
 
 
 def is_auth(vk):
     if (str(vk).startswith('Auth crash')):
         log = f'Exception: auth crash - {vk}'
         print(log)
-        creating_logs(message=log,
+
+        logging_to_db(message=log,
                       type_publication=db.TypePublication.auth)
 
         return False
     return True
 
 
-def creating_logs(message, type_publication):
+def logging_to_db(message, type_publication):
     try:
         connection = pymysql.connect(host=db.Database.host,
                                      user=db.Database.username,
@@ -69,11 +75,24 @@ def creating_logs(message, type_publication):
         connection.close()
 
 
+def logging_to_vk(vk, message):
+    try:
+        vk.messages.send(user_id=db.PrivateDataVk.user_id,
+                         message=message,
+                         group_id=db.Group.group_id)
+
+    except Exception as e:
+        log = f'Exception: logging to VK crash - {e}'
+        print(log)
+        logging_to_db(message=log,
+                      type_publication=db.TypePublication.auth)
+
+
 # </GENERAL>
 
 # <HUMOR>
 
-def select_humor():
+def select_humor(vk):
     try:
         connection = pymysql.connect(host=db.Database.host,
                                      user=db.Database.username,
@@ -94,22 +113,28 @@ def select_humor():
 
             log = 'Complete: "SELECT humor" - single_image.id={0}'.format(content[1])
             print(log)
-            creating_logs(message=log,
+
+            logging_to_db(message=log,
                           type_publication=db.TypePublication.select)
+            logging_to_vk(vk=vk,
+                          message=log)
 
             return content
 
     except Exception as e:
         log = 'Exception: "SELECT humor" - {0}'.format(e)
         print(log)
-        creating_logs(message=log,
+
+        logging_to_db(message=log,
                       type_publication=db.TypePublication.select)
+        logging_to_vk(vk=vk,
+                      message=log)
 
     finally:
         connection.close()
 
 
-def update_used_for_table_single_image(single_image_id):
+def update_used_for_table_single_image(vk, single_image_id):
     try:
         connection = pymysql.connect(host=db.Database.host,
                                      user=db.Database.username,
@@ -122,34 +147,42 @@ def update_used_for_table_single_image(single_image_id):
                      SET single_image.used='1' 
                      WHERE single_image.id={0}""".format(single_image_id)
             cursor.execute(sql)
-
         connection.commit()
 
         log = 'Complete: "UPDATE used TABLE single_image" - single_image.id={0}'.format(single_image_id)
         print(log)
-        creating_logs(message=log,
+
+        logging_to_db(message=log,
                       type_publication=db.TypePublication.update)
+        logging_to_vk(vk=vk,
+                      message=log)
 
         return cursor.fetchone()
 
     except Exception as e:
         log = 'Exception: "UPDATE used TABLE single_image" - single_image.id={0} - {1}'.format(single_image_id, e)
         print(log)
-        creating_logs(message=log,
+
+        logging_to_db(message=log,
                       type_publication=db.TypePublication.update)
+        logging_to_vk(vk=vk,
+                      message=log)
 
     finally:
         connection.close()
 
 
 def publication_humor(vk):
-    humor = select_humor()
+    humor = select_humor(vk=vk)
 
     if humor is None:
         log = 'Error: all images are used'
         print(log)
-        creating_logs(message=log,
+
+        logging_to_db(message=log,
                       type_publication=db.TypePublication.humor)
+        logging_to_vk(vk=vk,
+                      message=log)
 
         return log
 
@@ -164,16 +197,23 @@ def publication_humor(vk):
 
         log = 'Complete: publication humor - single_image.id={0}'.format(humor[1])
         print(log)
-        creating_logs(message=log,
-                      type_publication=db.TypePublication.humor)
 
-        update_used_for_table_single_image(single_image_id=humor[1])
+        logging_to_db(message=log,
+                      type_publication=db.TypePublication.humor)
+        logging_to_vk(vk=vk,
+                      message=log)
+
+        update_used_for_table_single_image(vk=vk,
+                                           single_image_id=humor[1])
 
     except Exception as e:
         log = 'Exception: publication humor - single_image.id={0} - {1}'.format(humor[1], e)
         print(log)
-        creating_logs(message=log,
+
+        logging_to_db(message=log,
                       type_publication=db.TypePublication.humor)
+        logging_to_vk(vk=vk,
+                      message=log)
 
 
 # </HUMOR>
@@ -181,7 +221,7 @@ def publication_humor(vk):
 
 # <POSTS>
 
-def select_post():
+def select_post(vk):
     try:
         connection = pymysql.connect(host=db.Database.host,
                                      user=db.Database.username,
@@ -202,22 +242,28 @@ def select_post():
 
             log = 'Complete: "SELECT post" - posts.id={0}'.format(content[0])
             print(log)
-            creating_logs(message=log,
+
+            logging_to_db(message=log,
                           type_publication=db.TypePublication.select)
+            logging_to_vk(vk=vk,
+                          message=log)
 
             return content
 
     except Exception as e:
         log = 'Exception: "SELECT post" - {0}'.format(e)
         print(log)
-        creating_logs(message=log,
+
+        logging_to_db(message=log,
                       type_publication=db.TypePublication.select)
+        logging_to_vk(vk=vk,
+                      message=log)
 
     finally:
         connection.close()
 
 
-def update_used_for_table_posts(posts_id):
+def update_used_for_table_posts(vk, posts_id):
     try:
         connection = pymysql.connect(host=db.Database.host,
                                      user=db.Database.username,
@@ -230,34 +276,42 @@ def update_used_for_table_posts(posts_id):
                      SET posts.used='1' 
                      WHERE posts.id={0}""".format(posts_id)
             cursor.execute(sql)
-
         connection.commit()
 
         log = 'Complete: "UPDATE used TABLE posts" - posts.id={0}'.format(posts_id)
         print(log)
-        creating_logs(message=log,
+
+        logging_to_db(message=log,
                       type_publication=db.TypePublication.update)
+        logging_to_vk(vk=vk,
+                      message=log)
 
         return cursor.fetchone()
 
     except Exception as e:
         log = 'Exception: "UPDATE used TABLE posts" - {0}'.format(e)
         print(log)
-        creating_logs(message=log,
+
+        logging_to_db(message=log,
                       type_publication=db.TypePublication.update)
+        logging_to_vk(vk=vk,
+                      message=log)
 
     finally:
         connection.close()
 
 
 def publication_post(vk):
-    post = select_post()
+    post = select_post(vk=vk)
 
     if post is None:
         log = 'Error: all posts are used'
         print(log)
-        creating_logs(message=log,
+
+        logging_to_db(message=log,
                       type_publication=db.TypePublication.posts)
+        logging_to_vk(vk=vk,
+                      message=log)
 
         return log
 
@@ -273,16 +327,22 @@ def publication_post(vk):
         post_id = post[0]
         log = 'Complete: Publication post - posts.id={0}'.format(post_id)
         print(log)
-        creating_logs(message=log,
-                      type_publication=db.TypePublication.posts)
 
-        update_used_for_table_posts(posts_id=post[0])
+        logging_to_db(message=log,
+                      type_publication=db.TypePublication.posts)
+        logging_to_vk(vk=vk,
+                      message=log)
+
+        update_used_for_table_posts(vk=vk, posts_id=post[0])
 
     except Exception as e:
         log = ' Exception: publication post - {0}'.format(e)
         print(log)
-        creating_logs(message=log,
+
+        logging_to_db(message=log,
                       type_publication=db.TypePublication.posts)
+        logging_to_vk(vk=vk,
+                      message=log)
 
 
 # </POSTS>
@@ -290,7 +350,7 @@ def publication_post(vk):
 
 # <VIDEO>
 
-def select_video():
+def select_video(vk):
     try:
         connection = pymysql.connect(host=db.Database.host,
                                      user=db.Database.username,
@@ -311,22 +371,28 @@ def select_video():
 
             log = 'Complete: "SELECT video" - video.id={0}'.format(content[0])
             print(log)
-            creating_logs(message=log,
+
+            logging_to_db(message=log,
                           type_publication=db.TypePublication.select)
+            logging_to_vk(vk=vk,
+                          message=log)
 
             return content
 
     except Exception as e:
         log = 'Exception: "SELECT video" - {0}'.format(e)
         print(log)
-        creating_logs(message=log,
+
+        logging_to_db(message=log,
                       type_publication=db.TypePublication.select)
+        logging_to_vk(vk=vk,
+                      message=log)
 
     finally:
         connection.close()
 
 
-def update_used_for_table_video(video_id):
+def update_used_for_table_video(vk, video_id):
     try:
         connection = pymysql.connect(host=db.Database.host,
                                      user=db.Database.username,
@@ -343,29 +409,38 @@ def update_used_for_table_video(video_id):
 
         log = 'Complete: "UPDATE used TABLE video" - {0}'.format(video_id)
         print(log)
-        creating_logs(message=log,
+
+        logging_to_db(message=log,
                       type_publication=db.TypePublication.update)
+        logging_to_vk(vk=vk,
+                      message=log)
 
         return cursor.fetchone()
 
     except Exception as e:
         log = 'Exception: "UPDATE used TABLE video" - {0}'.format(e)
         print(log)
-        creating_logs(message=log,
+
+        logging_to_db(message=log,
                       type_publication=db.TypePublication.update)
+        logging_to_vk(vk=vk,
+                      message=log)
 
     finally:
         connection.close()
 
 
 def publication_video(vk):
-    video = select_video()
+    video = select_video(vk=vk)
 
     if video is None:
         log = 'Error: all video are used'
         print(log)
-        creating_logs(message=log,
+
+        logging_to_db(message=log,
                       type_publication=db.TypePublication.video)
+        logging_to_vk(vk=vk,
+                      message=log)
 
         return log
 
@@ -381,16 +456,23 @@ def publication_video(vk):
 
         log = 'Complete: publication video - video.id={0}'.format(video_id)
         print(log)
-        creating_logs(message=log,
-                      type_publication=db.TypePublication.video)
 
-        update_used_for_table_video(video_id=video_id)
+        logging_to_db(message=log,
+                      type_publication=db.TypePublication.video)
+        logging_to_vk(vk=vk,
+                      message=log)
+
+        update_used_for_table_video(vk=vk,
+                                    video_id=video_id)
 
     except Exception as e:
         log = 'Exception: publication video - video.id={0}'.format(e)
         print(log)
-        creating_logs(message=log,
+
+        logging_to_db(message=log,
                       type_publication=db.TypePublication.video)
+        logging_to_vk(vk=vk,
+                      message=log)
 
 
 # </VIDEO>
@@ -442,8 +524,12 @@ def main():
             else:
                 log = f'Exception: publication failed - {e}'
                 print(log)
-                creating_logs(message=log,
+
+                logging_to_db(message=log,
                               type_publication=db.TypePublication.publication)
+                logging_to_vk(vk=vk,
+                              message=log)
+
                 break
 
 

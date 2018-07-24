@@ -15,9 +15,10 @@ class Group:
 
 
 class PrivateDataVk:
-    login = '89618754106'
-    password = 'ubgcfy22331'
+    login = '89529333095'
+    password = 'pbvjdfybt4'
     scope = 'wall, messages, photos, video'
+    user_id = 445418216
 
 
 class Nikulux:
