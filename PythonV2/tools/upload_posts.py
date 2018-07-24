@@ -27,10 +27,13 @@ def insert_post(description, attachments, url, tag):
                                      charset=db.Database.charset)
 
         with connection.cursor() as cursor:
-            sql = """INSERT INTO posts (content, attachments, url, tag) 
-                            VALUES ('{0}','{1}','{2}','{3}')""".format(description, attachments, url, tag)
+            sql = """INSERT INTO posts (content, attachments, url, tag) VALUES ('{0}','{1}','{2}','{3}')""".format(description, attachments, url, tag)
             cursor.execute(sql)
             connection.commit()
+
+            file = open('query.sql', 'a', encoding='utf8')
+            file.write(f'{sql};\n')
+            file.close()
 
         return cursor.fetchone()
 

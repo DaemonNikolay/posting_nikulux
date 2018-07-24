@@ -28,7 +28,9 @@ def insert_default_data_to_table_tags(connection):
                                                    ('#go_nikulux'),
                                                    ('#linux_nikulux'),
                                                    ('#angular_nikulux'),
-                                                   ('#yii2_video_nikulux')"""
+                                                   ('#yii2_video_nikulux'),
+                                                   ('#methodology_nikulux'),
+                                                   ('#mathematic_nikulux')"""
             cursor.execute(sql)
 
         connection.commit()

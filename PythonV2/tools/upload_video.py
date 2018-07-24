@@ -27,10 +27,13 @@ def insert_video(message, attachments, tag):
                                      charset=db.Database.charset)
 
         with connection.cursor() as cursor:
-            sql = """INSERT INTO video (message, attachments, tag) 
-                            VALUES ('{0}','{1}','{2}')""".format(message, attachments, tag)
+            sql = """INSERT INTO video (message, attachments, tag) VALUES ('{0}','{1}','{2}')""".format(message, attachments, tag)
             cursor.execute(sql)
             connection.commit()
+
+        file = open('query.sql', 'a', encoding='utf8')
+        file.write(f'{sql};\n')
+        file.close()
 
         print('Video  "{0}" - successfully!'.format(message))
 

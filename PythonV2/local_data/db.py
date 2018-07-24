@@ -1,7 +1,7 @@
 class Database:
     host = 'localhost'  # localhost
     username = 'root'
-    password = ''  # rfgbnfy
+    password = 'rfgbnfy'  # rfgbnfy
     name_db = 'postinger-python'
     charset = 'utf8mb4'
 
