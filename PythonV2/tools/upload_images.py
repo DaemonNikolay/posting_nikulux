@@ -21,12 +21,16 @@ def auth():
 def insert_attachments_to_db(connection, attachment, name_image):
     try:
         with connection.cursor() as cursor:
-            sql = """INSERT INTO single_image (attachments, caption_photo) 
-                     VALUES ('{0}','{1}')""".format(attachment, '#it_umor_nikulux')
+            sql = """INSERT INTO single_image (attachments, caption_photo) VALUES ('{0}','{1}')""".format(attachment, '#it_umor_nikulux')
             cursor.execute(sql)
 
         connection.commit()
         print('File: {0} - upload'.format(name_image))
+
+        file = open('query.sql', 'a', encoding='utf8')
+        file.write(f'{sql};\n')
+        file.close()
+
 
     except Exception as e:
         print('File: {0} - Exception: {1}'.format(name_image, e))

@@ -515,7 +515,7 @@ def publication_video(vk):
         logging_to_db(message=log,
                       type_publication=db.TypePublication.video)
         logging_to_vk(vk=vk,
-                      message=f'{log}\n{next_time_publication()}')
+                      message=f'&#128125;{log}\n&#128125;{next_time_publication()}')
 
         update_used_for_table_video(vk=vk, video_id=video_id)
 
@@ -538,7 +538,6 @@ def main():
 
     if not is_auth(vk=vk):
         return
-
 
     is_auth_failed = False
     is_publication = False
