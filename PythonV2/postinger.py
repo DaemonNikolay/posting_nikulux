@@ -2,6 +2,7 @@ import vk_api
 import pymysql
 import random
 import time
+from datetime import datetime, timedelta
 from local_data import db
 
 
@@ -86,6 +87,13 @@ def logging_to_vk(vk, message):
         print(log)
         logging_to_db(message=log,
                       type_publication=db.TypePublication.auth)
+
+
+def get_next_time_publication():
+    next_time_publication = datetime.now() + timedelta(seconds=db.Publications.timer_to_seconds)
+    next_time_publication = next_time_publication.strftime('%Y.%m.%d %H:%M:%S')
+
+    return f'Следующая публикация будет в: {next_time_publication}'
 
 
 # </GENERAL>
@@ -197,11 +205,10 @@ def publication_humor(vk):
 
         log = 'Complete: publication humor - single_image.id={0}'.format(humor[1])
         print(log)
-
         logging_to_db(message=log,
                       type_publication=db.TypePublication.humor)
         logging_to_vk(vk=vk,
-                      message=log)
+                      message=f'{log}\n{get_next_time_publication()}')
 
         update_used_for_table_single_image(vk=vk,
                                            single_image_id=humor[1])
@@ -331,7 +338,7 @@ def publication_post(vk):
         logging_to_db(message=log,
                       type_publication=db.TypePublication.posts)
         logging_to_vk(vk=vk,
-                      message=log)
+                      message=f'{log}\n{get_next_time_publication()}')
 
         update_used_for_table_posts(vk=vk, posts_id=post[0])
 
@@ -460,7 +467,7 @@ def publication_video(vk):
         logging_to_db(message=log,
                       type_publication=db.TypePublication.video)
         logging_to_vk(vk=vk,
-                      message=log)
+                      message=f'{log}\n{get_next_time_publication()}')
 
         update_used_for_table_video(vk=vk,
                                     video_id=video_id)
