@@ -89,11 +89,55 @@ def logging_to_vk(vk, message):
                       type_publication=db.TypePublication.auth)
 
 
-def get_next_time_publication():
+def next_time_publication():
     next_time_publication = datetime.now() + timedelta(seconds=db.Publications.timer_to_seconds)
-    next_time_publication = next_time_publication.strftime('%Y.%m.%d %H:%M:%S')
+    next_time_publication_format = next_time_publication.strftime('%Y.%m.%d %H:%M:%S')
 
-    return f'Следующая публикация будет в: {next_time_publication}'
+    return f'Следующая публикация будет в: {next_time_publication_format}'
+
+
+def count_materials_from_db(vk):
+    try:
+        connection = pymysql.connect(host=db.Database.host,
+                                     user=db.Database.username,
+                                     db=db.Database.name_db,
+                                     password=db.Database.password,
+                                     charset=db.Database.charset)
+
+        with connection.cursor() as cursor:
+            sql_table_posts = """SELECT COUNT(*) AS count_posts FROM posts WHERE posts.used='0'"""
+            cursor.execute(sql_table_posts)
+            count_posts = cursor.fetchone()[0]
+
+        with connection.cursor() as cursor:
+            sql_table_single_image = """SELECT COUNT(*) AS count_humor FROM single_image WHERE single_image.used='0'"""
+            cursor.execute(sql_table_single_image)
+            count_humor = cursor.fetchone()[0]
+
+        with connection.cursor() as cursor:
+            sql_table_video = """SELECT COUNT(*) AS count_video FROM video WHERE video.used='0'"""
+            cursor.execute(sql_table_video)
+            count_video = cursor.fetchone()[0]
+
+            log = f'Complete: posts={count_posts}, humor={count_humor}, video={count_video}'
+            print(log)
+
+            logging_to_db(message=log,
+                          type_publication=db.TypePublication.select)
+            logging_to_vk(vk=vk,
+                          message=log)
+
+    except Exception as e:
+        log = 'Exception: count materials failed - {0}'.format(e)
+        print(log)
+
+        logging_to_db(message=log,
+                      type_publication=db.TypePublication.select)
+        logging_to_vk(vk=vk,
+                      message=log)
+
+    finally:
+        connection.close()
 
 
 # </GENERAL>
@@ -208,10 +252,12 @@ def publication_humor(vk):
         logging_to_db(message=log,
                       type_publication=db.TypePublication.humor)
         logging_to_vk(vk=vk,
-                      message=f'{log}\n{get_next_time_publication()}')
+                      message=f'{log}\n{next_time_publication()}')
 
         update_used_for_table_single_image(vk=vk,
                                            single_image_id=humor[1])
+
+        count_materials_from_db(vk)
 
     except Exception as e:
         log = 'Exception: publication humor - single_image.id={0} - {1}'.format(humor[1], e)
@@ -338,9 +384,11 @@ def publication_post(vk):
         logging_to_db(message=log,
                       type_publication=db.TypePublication.posts)
         logging_to_vk(vk=vk,
-                      message=f'{log}\n{get_next_time_publication()}')
+                      message=f'{log}\n{next_time_publication()}')
 
         update_used_for_table_posts(vk=vk, posts_id=post[0])
+
+        count_materials_from_db(vk)
 
     except Exception as e:
         log = ' Exception: publication post - {0}'.format(e)
@@ -467,10 +515,11 @@ def publication_video(vk):
         logging_to_db(message=log,
                       type_publication=db.TypePublication.video)
         logging_to_vk(vk=vk,
-                      message=f'{log}\n{get_next_time_publication()}')
+                      message=f'{log}\n{next_time_publication()}')
 
-        update_used_for_table_video(vk=vk,
-                                    video_id=video_id)
+        update_used_for_table_video(vk=vk, video_id=video_id)
+
+        count_materials_from_db(vk)
 
     except Exception as e:
         log = 'Exception: publication video - video.id={0}'.format(e)
