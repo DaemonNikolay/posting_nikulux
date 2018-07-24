@@ -32,18 +32,15 @@ def auth():
     return vk_session.get_api()
 
 
-def auto_publications(vk):
-    while True:
-        option = random.randint(0, 2)
+def is_auth(vk):
+    if (str(vk).startswith('Auth crash')):
+        log = f'Exception: auth crash - {vk}'
+        print(log)
+        creating_logs(message=log,
+                      type_publication=db.TypePublication.auth)
 
-        if option == 0:
-            publication_humor(vk)
-        elif option == 1:
-            publication_post(vk)
-        elif option == 2:
-            publication_video(vk)
-
-        time.sleep(db.Publications.timer_to_seconds)
+        return False
+    return True
 
 
 def creating_logs(message, type_publication):
@@ -154,7 +151,7 @@ def publication_humor(vk):
         creating_logs(message=log,
                       type_publication=db.TypePublication.humor)
 
-        return
+        return log
 
     attachment = '{0},{1}'.format(humor[0], db.Nikulux.base_url)
     message = humor[2]
@@ -262,7 +259,7 @@ def publication_post(vk):
         creating_logs(message=log,
                       type_publication=db.TypePublication.posts)
 
-        return
+        return log
 
     attachment = '{0},{1}'.format(post[2], post[3])
     message = '{0}\n\n{1}'.format(post[1], post[4])
@@ -370,7 +367,7 @@ def publication_video(vk):
         creating_logs(message=log,
                       type_publication=db.TypePublication.video)
 
-        return
+        return log
 
     video_id = video[0]
     message = '{0}\n\n{1}'.format(video[1], video[3])
@@ -398,17 +395,6 @@ def publication_video(vk):
 
 # </VIDEO>
 
-def is_auth(vk):
-    if (str(vk).startswith('Auth crash')):
-        log = f'Exception: auth crash - {vk}'
-        print(log)
-        creating_logs(message=log,
-                      type_publication=db.TypePublication.auth)
-
-        return False
-    return True
-
-
 def main():
     vk = auth()
 
@@ -416,6 +402,7 @@ def main():
         return
 
     is_auth_failed = False
+    is_publication = False
 
     while True:
         if is_auth_failed:
@@ -428,13 +415,25 @@ def main():
             option = random.randint(0, 2)
 
             if option == 0:
-                publication_humor(vk)
-            elif option == 1:
-                publication_post(vk)
-            elif option == 2:
-                publication_video(vk)
+                if publication_humor(vk).find('Error') != -1:
+                    is_publication = False
+                else:
+                    is_publication = True
 
-            time.sleep(db.Publications.timer_to_seconds)
+            elif option == 1:
+                if publication_post(vk).find('Error') != -1:
+                    is_publication = False
+                else:
+                    is_publication = True
+
+            elif option == 2:
+                if publication_video(vk).find('Error') != -1:
+                    is_publication = False
+                else:
+                    is_publication = True
+
+            if is_publication:
+                time.sleep(db.Publications.timer_to_seconds)
 
         except Exception as e:
             if str(e).lower().find('user authorization failed') != -1:
