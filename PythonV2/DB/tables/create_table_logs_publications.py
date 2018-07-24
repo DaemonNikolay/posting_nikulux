@@ -6,7 +6,7 @@ def create_table_logs_publications(connection):
         with connection.cursor() as cursor:
             sql = """CREATE TABLE logs_publications(
                         id INT AUTO_INCREMENT PRIMARY KEY,
-                        text VARCHAR(255) NOT NULL,
+                        text TEXT NOT NULL,
                         type_publication ENUM('{0}', '{1}', '{2}', '{3}', '{4}', '{5}'),
                         created_at DATETIME DEFAULT CURRENT_TIMESTAMP
                   )""".format(db.TypePublication.posts,

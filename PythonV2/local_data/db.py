@@ -1,15 +1,15 @@
 class Database:
     host = 'localhost'
     username = 'root'
-    password = ''
+    password = ''  # rfgbnfy
     name_db = 'postinger-python'
     charset = 'utf8mb4'
 
 
 class Group:
-    album_id_img = 254584117  # 253996367
-    album_id_video = 21
-    group_id = 145125017  # 155660424
+    album_id_img = 253996367  # 254584117
+    album_id_video = 1  # 21
+    group_id = 155660424  # 145125017
     owner_id = group_id
     from_group = 1
 
@@ -31,6 +31,7 @@ class TypePublication:
     auth = 'auth'
     select = 'select'
     update = 'update'
+    publication = 'publication'
 
 
 class Publications:

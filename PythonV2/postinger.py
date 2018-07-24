@@ -17,19 +17,33 @@ def auth():
         vk_session.auth(token_only=True)
 
     except vk_api.AuthError as error_msg:
-        log = 'Auth crash: {0}'.format(error_msg)
+        log = 'Error: auth crash: {0}'.format(error_msg)
         print(log)
         creating_logs(message=log,
                       type_publication=db.TypePublication.auth)
 
         return log
 
-    log = 'Auth is completed'
+    log = 'Complete: auth is completed'
     print(log)
     creating_logs(message=log,
                   type_publication=db.TypePublication.auth)
 
     return vk_session.get_api()
+
+
+def auto_publications(vk):
+    while True:
+        option = random.randint(0, 2)
+
+        if option == 0:
+            publication_humor(vk)
+        elif option == 1:
+            publication_post(vk)
+        elif option == 2:
+            publication_video(vk)
+
+        time.sleep(db.Publications.timer_to_seconds)
 
 
 def creating_logs(message, type_publication):
@@ -330,8 +344,6 @@ def update_used_for_table_video(video_id):
             cursor.execute(sql)
         connection.commit()
 
-        content = cursor.fetchone()
-
         log = 'Complete: "UPDATE used TABLE video" - {0}'.format(video_id)
         print(log)
         creating_logs(message=log,
@@ -378,7 +390,7 @@ def publication_video(vk):
         update_used_for_table_video(video_id=video_id)
 
     except Exception as e:
-        log = 'Exception: publication video - {0}'.format(e)
+        log = 'Exception: publication video - video.id={0}'.format(e)
         print(log)
         creating_logs(message=log,
                       type_publication=db.TypePublication.video)
@@ -386,28 +398,54 @@ def publication_video(vk):
 
 # </VIDEO>
 
+def is_auth(vk):
+    if (str(vk).startswith('Auth crash')):
+        log = f'Exception: auth crash - {vk}'
+        print(log)
+        creating_logs(message=log,
+                      type_publication=db.TypePublication.auth)
+
+        return False
+    return True
+
+
 def main():
     vk = auth()
 
-    if (str(vk).startswith('Auth crash')):
-        print(vk)
+    if not is_auth(vk=vk):
         return
 
-    publication_humor(vk)
-    publication_post(vk)
-    publication_video(vk)
+    is_auth_failed = False
 
-    # while True:
-    #     option = random.randint(0, 2)
-    #
-    #     if option == 0:
-    #         publication_humor(vk)
-    #     elif option == 1:
-    #         publication_post(vk)
-    #     elif option == 2:
-    #         publication_video(vk)
-    #
-    #     time.sleep(db.Publications.timer_to_seconds)
+    while True:
+        if is_auth_failed:
+            vk = auth()
+
+            if not is_auth(vk=vk):
+                return
+
+        try:
+            option = random.randint(0, 2)
+
+            if option == 0:
+                publication_humor(vk)
+            elif option == 1:
+                publication_post(vk)
+            elif option == 2:
+                publication_video(vk)
+
+            time.sleep(db.Publications.timer_to_seconds)
+
+        except Exception as e:
+            if str(e).lower().find('user authorization failed') != -1:
+                is_auth_failed = True
+
+            else:
+                log = f'Exception: publication failed - {e}'
+                print(log)
+                creating_logs(message=log,
+                              type_publication=db.TypePublication.publication)
+                break
 
 
 if __name__ == '__main__':
