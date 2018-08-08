@@ -39,7 +39,7 @@ def auth():
 
 
 def is_auth(vk):
-    if (str(vk).startswith('Auth crash')):
+    if 'Auth crash' in str(vk):
         log = f'Exception: auth crash - {vk}'
         print(log)
 
@@ -249,15 +249,18 @@ def publication_humor(vk):
 
         log = 'Complete: publication humor - single_image.id={0}'.format(humor[1])
         print(log)
+
         logging_to_db(message=log,
                       type_publication=db.TypePublication.humor)
         logging_to_vk(vk=vk,
-                      message=f'{log}\n{next_time_publication()}')
+                      message=f'&#128125;{log}\n&#128125;{next_time_publication()}')
 
         update_used_for_table_single_image(vk=vk,
                                            single_image_id=humor[1])
 
         count_materials_from_db(vk)
+
+        return 'OK'
 
     except Exception as e:
         log = 'Exception: publication humor - single_image.id={0} - {1}'.format(humor[1], e)
@@ -267,6 +270,8 @@ def publication_humor(vk):
                       type_publication=db.TypePublication.humor)
         logging_to_vk(vk=vk,
                       message=log)
+
+        return 'NOT OK'
 
 
 # </HUMOR>
@@ -384,11 +389,13 @@ def publication_post(vk):
         logging_to_db(message=log,
                       type_publication=db.TypePublication.posts)
         logging_to_vk(vk=vk,
-                      message=f'{log}\n{next_time_publication()}')
+                      message=f'&#128125;{log}\n&#128125;{next_time_publication()}')
 
         update_used_for_table_posts(vk=vk, posts_id=post[0])
 
         count_materials_from_db(vk)
+
+        return 'OK'
 
     except Exception as e:
         log = ' Exception: publication post - {0}'.format(e)
@@ -398,6 +405,8 @@ def publication_post(vk):
                       type_publication=db.TypePublication.posts)
         logging_to_vk(vk=vk,
                       message=log)
+
+        return 'NOT OK'
 
 
 # </POSTS>
@@ -521,6 +530,8 @@ def publication_video(vk):
 
         count_materials_from_db(vk)
 
+        return 'OK'
+
     except Exception as e:
         log = 'Exception: publication video - video.id={0}'.format(e)
         print(log)
@@ -530,8 +541,13 @@ def publication_video(vk):
         logging_to_vk(vk=vk,
                       message=log)
 
+        return 'NOT OK'
+
 
 # </VIDEO>
+
+
+# <GENERAL>
 
 def main():
     vk = auth()
@@ -539,55 +555,31 @@ def main():
     if not is_auth(vk=vk):
         return
 
-    is_auth_failed = False
-    is_publication = False
-
     while True:
-        if is_auth_failed:
-            vk = auth()
+        option = random.randint(0, 2)
 
-            if not is_auth(vk=vk):
-                return
+        if option == 0:
+            if 'Error' in publication_humor(vk):
+                vk = auth()
+                if not is_auth(vk=vk):
+                    return
 
-        try:
-            option = random.randint(0, 2)
+        elif option == 1:
+            if 'Error' in publication_post(vk):
+                vk = auth()
+                if not is_auth(vk=vk):
+                    return
 
-            if option == 0:
-                if publication_humor(vk).find('Error') != -1:
-                    is_publication = False
-                else:
-                    is_publication = True
+        elif option == 2:
+            if 'Error' in publication_video(vk):
+                vk = auth()
+                if not is_auth(vk=vk):
+                    return
 
-            elif option == 1:
-                if publication_post(vk).find('Error') != -1:
-                    is_publication = False
-                else:
-                    is_publication = True
+        time.sleep(db.Publications.timer_to_seconds)
 
-            elif option == 2:
-                if publication_video(vk).find('Error') != -1:
-                    is_publication = False
-                else:
-                    is_publication = True
 
-            if is_publication:
-                time.sleep(db.Publications.timer_to_seconds)
-
-        except Exception as e:
-            if str(e).lower().find('user authorization failed') != -1:
-                is_auth_failed = True
-
-            else:
-                log = f'Exception: publication failed - {e}'
-                print(log)
-
-                logging_to_db(message=log,
-                              type_publication=db.TypePublication.publication)
-                logging_to_vk(vk=vk,
-                              message=log)
-
-                break
-
+# </GENERAL>
 
 if __name__ == '__main__':
     main()

@@ -1,15 +1,31 @@
+# Auxiliary classes
+
+class GroupTest:
+    album_id_img = 253996367
+    album_id_video = 1
+    group_id = 155660424
+
+
+class GroupNikulux:
+    group_id = 145125017
+    album_id_img = 254584117
+    album_id_video = 21
+
+
+# General classes
+
 class Database:
     host = 'localhost'  # localhost
     username = 'root'
-    password = 'rfgbnfy'  # rfgbnfy
+    password = ''  # rfgbnfy
     name_db = 'postinger-python'
     charset = 'utf8mb4'
 
 
 class Group:
-    album_id_img = 254584117  # 253996367
-    album_id_video = 21  # 1
-    group_id = 145125017  # 145125017 155660424
+    album_id_img = GroupTest.album_id_img
+    album_id_video = GroupTest.album_id_video
+    group_id = GroupTest.group_id
     owner_id = group_id
     from_group = 1
 
