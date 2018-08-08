@@ -17,15 +17,15 @@ class GroupNikulux:
 class Database:
     host = 'localhost'  # localhost
     username = 'root'
-    password = ''  # rfgbnfy
+    password = 'rfgbnfy'  # rfgbnfy
     name_db = 'postinger-python'
     charset = 'utf8mb4'
 
 
 class Group:
-    album_id_img = GroupTest.album_id_img
-    album_id_video = GroupTest.album_id_video
-    group_id = GroupTest.group_id
+    album_id_img = GroupNikulux.album_id_img
+    album_id_video = GroupNikulux.album_id_video
+    group_id = GroupNikulux.group_id
     owner_id = group_id
     from_group = 1
 
@@ -52,7 +52,7 @@ class TypePublication:
 
 
 class Publications:
-    timer_to_seconds = 7200
+    timer_to_seconds = 9000
 
 
 class General:

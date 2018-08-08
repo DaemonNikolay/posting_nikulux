@@ -1,19 +1,165 @@
 {
   "video": [
     {
-      "message": "Как решать и высчитывать производную с интегралом",
-      "tag_id": "31",
+      "message": "Webpack. Что, зачем и почему?",
+      "tag_id": "7",
       "links": [
-        "https://www.youtube.com/watch?v=AhZa26nDZfA",
-        "https://www.youtube.com/watch?v=r1pvgA3ZdS0&t=25s"
+        "https://www.youtube.com/watch?v=JK6AjIMYEZw&t=0s&list=PLM8AIkTGTsH8TBlAryAEMCUl5ru11yOLP&index=2",
+        "https://www.youtube.com/watch?v=MRlBKfGktwI",
+        "https://www.youtube.com/watch?v=jE1ibm037Fo",
+        "https://www.youtube.com/watch?v=nfmvexyoHXE",
+        "https://www.youtube.com/watch?v=uSYN9Fign-s"
       ]
     },
     {
-      "message": "Геометрическая и арифметическая прогрессии",
-      "tag_id": "31",
+      "message": "Правильная реклама Internet Explorer 11",
+      "tag_id": "1",
       "links": [
-        "https://www.youtube.com/watch?v=X5axLPCPvm8",
-        "https://www.youtube.com/watch?v=Twn_T9lH2t4"
+        "https://www.youtube.com/watch?v=PCJH0t1_hak"
+      ]
+    },
+    {
+      "message": "npm. Ясно и понятно",
+      "tag_id": "7",
+      "links": [
+        "https://www.youtube.com/watch?v=G4HmqOR0b8Q",
+        "https://www.youtube.com/watch?v=2e0hbjtUT-4",
+        "https://www.youtube.com/watch?v=CrevZgTc7ow",
+        "https://www.youtube.com/watch?v=OZ0D3irUT20",
+        "https://www.youtube.com/watch?v=-moRyiijffU"
+      ]
+    },
+    {
+      "message": "Как побороть лень?",
+      "tag_id": "2",
+      "links": [
+        "https://www.youtube.com/watch?v=8N0uTHiFN18"
+      ]
+    },
+    {
+      "message": "C# конец?",
+      "tag_id": "5",
+      "links": [
+        "https://www.youtube.com/watch?v=BNPkdZEdzp4",
+        "https://www.youtube.com/watch?v=MO-YxN8G-1A",
+        "https://www.youtube.com/watch?v=Nyby1_Agnas"
+      ]
+    },
+    {
+      "message": "Шарпы или Джавка?",
+      "tag_id": "5",
+      "links": [
+        "https://www.youtube.com/watch?v=Nyby1_Agnas",
+        "https://www.youtube.com/watch?v=7CFFCUa5W7o",
+        "https://www.youtube.com/watch?v=tEEzwJrFk3Y",
+        "https://www.youtube.com/watch?v=OiQFrGbbT6Y"
+      ]
+    },
+    {
+      "message": "Игра престолов JS и Java",
+      "tag_id": "7",
+      "links": [
+        "https://www.youtube.com/watch?v=A_t0g2OUR-o",
+        "https://www.youtube.com/watch?v=0ZQk2SKDlYY"
+      ]
+    },
+    {
+      "message": "Что нужно знать Junior C# разработчику?",
+      "tag_id": "5",
+      "links": [
+        "https://www.youtube.com/watch?v=v31F8ExGvpY"
+      ]
+    },
+    {
+      "message": "Если бы Гарри Поттер был программистом (Переозвучка)",
+      "tag_id": "1",
+      "links": [
+        "https://www.youtube.com/watch?v=CA5tBKSccuw"
+      ]
+    },
+    {
+      "message": "Как стать программистом?",
+      "tag_id": "2",
+      "links": [
+        "https://www.youtube.com/watch?v=nFCR9efZKLs",
+        "https://www.youtube.com/watch?v=UV2Oswo8hMU"
+      ]
+    },
+    {
+      "message": "Учимся программировать на языке Java с нуля",
+      "tag_id": "3",
+      "links": [
+        "https://www.youtube.com/watch?v=1gxXwrSwTVU"
+      ]
+    },
+    {
+      "message": "Основы SSH",
+      "tag_id": "13",
+      "links": [
+        "https://www.youtube.com/watch?v=sbVYRf_6Hvg"
+      ]
+    },
+    {
+      "message": "Linux или Windows?",
+      "tag_id": "10",
+      "links": [
+        "https://www.youtube.com/watch?v=3nFirsmpk9U",
+        "https://www.youtube.com/watch?v=lQG9cy-jOnc",
+        "https://www.youtube.com/watch?v=c1R-RWEnp60"
+      ]
+    },
+    {
+      "message": "Реклама Windows 8 в Японии.",
+      "tag_id": "1",
+      "links": [
+        "https://www.youtube.com/watch?v=a4Qc-JlluvA"
+      ]
+    },
+    {
+      "message": "Мощнейший ноутбук в мире!",
+      "tag_id": "2",
+      "links": [
+        "https://www.youtube.com/watch?v=k_GM1JA608Y"
+      ]
+    },
+    {
+      "message": "How To Make Mini Laptop at Home",
+      "tag_id": "2",
+      "links": [
+        "https://www.youtube.com/watch?v=pFho9bYt6Us"
+      ]
+    },
+    {
+      "message": "Windows 8: The Power of Touch",
+      "tag_id": "1",
+      "links": [
+        "https://www.youtube.com/watch?v=1DuAXFU6m4w"
+      ]
+    },
+    {
+      "message": "какой браузер лучше",
+      "tag_id": "13",
+      "links": [
+        "https://www.youtube.com/watch?v=xb0ynf0AiFI",
+        "https://www.youtube.com/watch?v=b8HJm2x252U",
+        "https://www.youtube.com/watch?v=nt_I8WPYcqk"
+      ]
+    },
+    {
+      "message": "Браузер Tor. Коротко и по основам",
+      "tag_id": "13",
+      "links": [
+        "https://www.youtube.com/watch?v=CaQoFP5eNsY",
+        "https://www.youtube.com/watch?v=Nc3v_nYIMzo",
+        "https://www.youtube.com/watch?v=9dkAtS7BFQU",
+        "https://www.youtube.com/watch?v=TDZxpNPdzxI"
+      ]
+    },
+    {
+      "message": "КАК ВЗЛОМАТЬ СИСТЕМУ? ",
+      "tag_id": "2",
+      "links": [
+        "https://www.youtube.com/watch?v=l9d1HXE7SH0"
       ]
     }
   ]
