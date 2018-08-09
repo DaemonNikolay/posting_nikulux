@@ -559,22 +559,22 @@ def main():
         option = random.randint(0, 2)
 
         if option == 0:
-            if 'Error' in publication_humor(vk):
+            if 'Error' in publication_humor(vk=vk):
+                continue
+            elif 'NOT OK' in publication_humor(vk=vk):
                 vk = auth()
-                if not is_auth(vk=vk):
-                    return
 
         elif option == 1:
-            if 'Error' in publication_post(vk):
+            if 'Error' in publication_post(vk=vk):
+                continue
+            elif 'NOT OK' in publication_post(vk=vk):
                 vk = auth()
-                if not is_auth(vk=vk):
-                    return
 
         elif option == 2:
-            if 'Error' in publication_video(vk):
+            if 'Error' in publication_video(vk=vk):
+                continue
+            elif 'NOT OK' in publication_video(vk=vk):
                 vk = auth()
-                if not is_auth(vk=vk):
-                    return
 
         time.sleep(db.Publications.timer_to_seconds)
 
